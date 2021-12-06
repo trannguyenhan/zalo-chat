@@ -1,5 +1,3 @@
 # zalo-chat
 
-this is just a project we reused as a backend for our coursework
-
-Packge source: [https://github.com/tonytran99](https://github.com/tonytran99)
+This is just a project that we reuse as a backend for our course, the project is referenced from tonytran99 and modified and added as appropriate. meet the requirements of our course.

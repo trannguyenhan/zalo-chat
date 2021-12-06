@@ -82,6 +82,7 @@ chatController.send = async (req, res, next) => {
         });
     }
 }
+
 chatController.getMessages = async (req, res, next) => {
     try {
         let messages = await MessagesModel.find({
@@ -95,6 +96,36 @@ chatController.getMessages = async (req, res, next) => {
             message: e.message
         });
     }
+}
+
+chatController.getMessaged = async(req, res, next) => {
+    let userId = req.userId;
+    let listChats = await ChatModel.find({"member": {$all: [userId]}});
+    let listMessages = await MessagesModel.find({"chat": {$in: listChats}}).populate('chat').populate('user');
+
+    let map = new Map();
+    for(let message of listMessages){
+        let key = message.chat.toString();
+        
+        if(map.has(key)){
+            if(map.get(key).updatedAt < message.updatedAt){
+                map.set(key, message);
+            } 
+        } else {
+            map.set(key, message);
+        }
+    }
+    
+    let result = [];
+    for(let [key, value] of map){
+        result.push(value);
+    }
+
+    return res.status(httpStatus.OK).json({
+        data: result,
+        message: 'Get list success',
+        response: 'GET LIST SUCCESS'
+    });
 }
 
 module.exports = chatController;
