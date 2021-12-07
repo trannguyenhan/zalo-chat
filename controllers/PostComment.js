@@ -1,5 +1,6 @@
 const PostModel = require("../models/Posts");
 const PostCommentModel = require("../models/PostComment");
+const DocumentModel = require("../models/Documents");
 const httpStatus = require("../utils/httpStatus");
 const postCommentController = {};
 postCommentController.create = async (req, res, next) => {
@@ -52,8 +53,19 @@ postCommentController.list = async (req, res, next) => {
         let postComments = await PostCommentModel.find({
             post: req.params.postId
         }).populate('user', [
-            'username', 'phonenumber', 'link', 'avatar'
+            'username', 'phonenumber', 'link', 'avatar', 'cover_image'
         ]);
+
+        let newPostComments = [];
+        for(let postComment of postComments){
+            let newPostComment = postComment;
+            newPostComment.user.avatar = await DocumentModel.findById(postComment.user.avatar);
+            newPostComments.push(newPostComment);
+        }
+        
+        postComments = newPostComments;
+        
+
         return res.status(httpStatus.OK).json({
             data: postComments
         });
