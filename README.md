@@ -23,3 +23,17 @@ or run:
 ```bash
 node index.js
 ```
+
+API add: 
+
+```
+/chats/getMessaged
+```
+
+API modify: 
+
+```
+posts/list
+users/set-block-user
+users/set-block-diary
+```
