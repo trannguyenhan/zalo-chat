@@ -4,7 +4,7 @@ const express = require("express");
 const postReportRoutes = express.Router();
 const auth = require("../middlewares/auth");
 
-postReportRoutes.post(
+postReportRoutes.get(
     "/create/:postId",
     auth,
     asyncWrapper(postReportController.create),
