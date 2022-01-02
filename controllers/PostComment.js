@@ -56,6 +56,7 @@ postCommentController.list = async (req, res, next) => {
             'username', 'phonenumber', 'link', 'avatar', 'cover_image'
         ]);
 
+        // modify result, avatar => object document (populate 2 layer)
         let newPostComments = [];
         for(let postComment of postComments){
             let newPostComment = postComment;

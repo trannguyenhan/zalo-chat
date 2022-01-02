@@ -276,10 +276,10 @@ usersController.setBlock = async (req, res, next) => {
         let type = req.body.type;
         let user = await UserModel.findById(req.userId);
         blocked = []
-        if (user.hasOwnProperty('blocked')) {
+        if (user.toObject().hasOwnProperty('blocked_inbox')) {
             blocked = user.blocked_inbox
         }
-    
+
         if(type) {
      
             if(blocked.indexOf(targetId) === -1) {
@@ -294,13 +294,13 @@ usersController.setBlock = async (req, res, next) => {
 
         user.blocked_inbox = blocked;
         user.save();
-
+        
         res.status(200).json({
             code: 200,
             message: "Thao tác thành công",
             data: user
         });
-
+        
     } catch (e) {
         return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
             message: e.message
@@ -313,7 +313,7 @@ usersController.setBlockDiary = async (req, res, next) => {
         let type = req.body.type;
         let user = await UserModel.findById(req.userId);
         blocked = []
-        if (user.hasOwnProperty('blocked')) {
+        if (user.toObject().hasOwnProperty('blocked_diary')) {
             blocked = user.blocked_diary
         }
     
